@@ -1,0 +1,8 @@
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: black; /* Make the arrows black */
+}
+
+.clickableDiv{
+  cursor: pointer;
+}

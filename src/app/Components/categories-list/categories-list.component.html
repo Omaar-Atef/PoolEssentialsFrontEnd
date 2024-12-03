@@ -1,0 +1,35 @@
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+<section id="CategoriesList" class="brands-list">
+    <div class="container">
+      <h2 class="display-7 text-dark text-uppercase">Categories</h2>
+  
+      <div class="row">
+        <div (click)="goToProducts(category.categoryID, category.categoryName)" *ngFor="let category of Categories()" class="col-lg-4 col-md-6 col-12 mb-4 clickableDiv">
+          <div class="product-card position-relative">
+            <div class="image-holder">
+               <!-- <img [src]="category.image" [alt]="category.categoryName" class="img-fluid"> -->
+              <img [src]="'http://localhost:5210/uploads/' + category.image" [alt]="category.categoryName" class="img-fluid">
+            </div>
+            <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
+              <h3 class="card-title text-uppercase">
+                {{category.categoryName }}
+              </h3>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="pagination w-25 text-center mx-auto  mb-5">
+        <button (click)="prevPage()" [disabled]="currentPage === 1" class="btn btn-primary rounded-pill">Previous</button>
+        <span class="my-1 mx-3">Page {{ currentPage }} of {{ totalPages }}</span>
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="btn btn-primary rounded-pill">Next</button>
+      </div>
+    </div>
+  </section>
+  

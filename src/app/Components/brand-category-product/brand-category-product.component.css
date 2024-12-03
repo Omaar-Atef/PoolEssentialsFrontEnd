@@ -1,0 +1,115 @@
+/* Global font setting */
+body {
+    font-family: 'Roboto', sans-serif; /* Using a clean and modern font */
+  }
+  
+  /* Style improvements for the card */
+  .card {
+    transition: all 0.3s ease-in-out;
+    max-width: 100%; /* Ensures the card doesn't exceed the column width */
+    height: 450px; /* Fixed height for the card */
+    display: flex;
+    flex-direction: column; /* Align card elements vertically */
+  }
+  
+  .card:hover {
+    transform: translateY(-5px); /* Slight hover effect */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Soft shadow on hover */
+  }
+  
+  .image-holder {
+    height: 60%; /* Image will take 70% of the card's height */
+    width: 100%;
+    overflow: hidden; /* Hide anything outside the container */
+  }
+  
+  .image-holder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensure the image fills the container without distortion */
+  }
+  
+  .card-body {
+    display: flex;
+    height: 40%; /* The text and button area will take 30% of the card's height */
+    padding: 0;
+  }
+  
+  .left-half {
+    flex: 2; /* Left half (text) will take up more space */
+    padding: 10px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Vertically centers text */
+  }
+  
+  .card-title {
+    font-size: 1.125rem; /* Slightly smaller title font size */
+    font-weight: 500; /* Lighter weight for a more modern look */
+    color: #333;
+  }
+  
+  .card-text p {
+    font-size: 0.875rem; /* Slightly smaller font for product details */
+    color: #555;
+  }
+  
+  .right-half {
+    flex: 1; /* Right half (button) takes up the remaining space */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Aligns the button to the top */
+    padding-top: 10px;
+  }
+  
+  .btn-primary {
+    background-color: #007bff; /* Customize primary button color */
+    border: none;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+  }
+  
+  .pagination {
+    width: 30%;
+  }
+  
+  /* Pagination button styling */
+  .pagination button {
+    font-weight: bold;
+    padding: 8px 20px;
+  }
+  
+  /* Optional custom style for disabled button */
+  .btn:disabled {
+    background-color: #d6d6d6; /* Light gray */
+    border-color: #d6d6d6; /* Light gray border */
+    cursor: not-allowed; /* Change cursor to indicate it's disabled */
+  }
+  
+  .pagination span {
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  /* Ensure only 3 cards per row */
+  @media (min-width: 992px) {
+    .col-lg-4 {
+      max-width: 33.33%; /* 3 cards per row */
+    }
+  }
+  
+  /* Responsive adjustments for smaller devices */
+  @media (max-width: 768px) {
+    .col-md-4 {
+      max-width: 50%; /* 2 cards per row on medium screens */
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .col-12 {
+      max-width: 100%; /* 1 card per row on small screens */
+    }
+  }
+  

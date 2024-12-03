@@ -1,0 +1,58 @@
+<section id="Categories" class="product-store position-relative padding-large no-padding-top mt-5">
+  <div class="container">
+    <div class="row">
+      <div class="display-header d-flex justify-content-between pb-3">
+        <h2 class="display-7 text-dark text-uppercase">Categories</h2>
+        <a routerLink="/categories" class="btn btn-medium btn-normal text-uppercase text-truncate"
+          style="max-width: 200px; display: inline-block;">
+          Categories
+        </a>
+
+      </div>
+
+      <div class="container">
+        <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <!-- Dynamically created carousel items from grouped categories -->
+            <div *ngFor="let group of groupedCategories; let i = index" class="carousel-item" [class.active]="i === 0">
+              <div class="row justify-content-center">
+                <!-- Loop over each category in the group -->
+                <div (click)="goToProducts(category.categoryID, category.categoryName)" *ngFor="let category of group"
+                  class="col-lg-4 col-md-6 col-12 mb-4 clickableDiv">
+                  <div class="product-card position-relative">
+                    <div class="image-holder">
+                      <!-- Display product image -->
+                      <!-- <img [src]="category.image" [alt]="category.categoryName" class="img-fluid"> -->
+                      <img [src]="'http://localhost:5210/uploads/' + category.image" [alt]="category.categoryName"
+                        class="img-fluid">
+                    </div>
+                    <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
+                      <h3 class="card-title text-uppercase">
+                        <a [href]="category.image" class="text-decoration-none text-dark">
+                          {{category.categoryName }}</a>
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+      <!-- Carousel controls -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+  <!-- Pagination for Swiper (if applicable, otherwise can be removed) -->
+  <div class="swiper-pagination position-absolute text-center"></div>
+
+</section>

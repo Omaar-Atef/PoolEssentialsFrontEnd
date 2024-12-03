@@ -1,0 +1,422 @@
+<br>
+<br>
+<br>
+<br>
+<div *ngIf="isAuthenticated">
+    <div class="d-flex">
+        <!-- Side Navigation Bar  -->
+        <div class="bg-light p-3" style="width: 250px; height: 100vh; box-shadow: 2px 0px 10px rgba(0,0,0,0.1);">
+            <h4 class="text-center mb-4">Admin Panel</h4>
+            <div class="list-group">
+                <a href="javascript:void(0)" (click)="openForm('category')"
+                    class="list-group-item list-group-item-action p-3">
+                    <i class="bi bi-box"></i> Category
+                </a>
+                <a href="javascript:void(0)" (click)="openForm('brand')"
+                    class="list-group-item list-group-item-action p-3">
+                    <i class="bi bi-card-image"></i> Brand
+                </a>
+                <a href="javascript:void(0)" (click)="openForm('product')"
+                    class="list-group-item list-group-item-action p-3">
+                    <i class="bi bi-bag"></i> Product
+                </a>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="container-fluid p-4">
+            <h3 class="mb-4 text-center">{{ formType | titlecase }} Management</h3>
+
+            <!-- Add/Edit/Delete Options -->
+            <div *ngIf="formType === 'category'">
+                <div class="d-flex justify-content-start gap-3 mb-4">
+                    <button class="btn btn-success" (click)="handleAction('add')">Add Category</button>
+                    <button class="btn btn-warning" (click)="handleAction('edit')">Edit Category</button>
+                    <button class="btn btn-danger" (click)="handleAction('delete')">Delete Category</button>
+                </div>
+            </div>
+
+            <div *ngIf="formType === 'brand'">
+                <div class="d-flex justify-content-start gap-3 mb-4">
+                    <button class="btn btn-success" (click)="handleAction('add')">Add Brand</button>
+                    <button class="btn btn-warning" (click)="handleAction('edit')">Edit Brand</button>
+                    <button class="btn btn-danger" (click)="handleAction('delete')">Delete Brand</button>
+                </div>
+            </div>
+
+            <div *ngIf="formType === 'product'">
+                <div class="d-flex justify-content-start gap-3 mb-4">
+                    <button class="btn btn-success" (click)="handleAction('add')">Add Product</button>
+                    <button class="btn btn-warning" (click)="handleAction('edit')">Edit Product</button>
+                    <button class="btn btn-danger" (click)="handleAction('delete')">Delete Product</button>
+                </div>
+            </div>
+
+            <!-- Form for Add Category, Brand, or Product -->
+            <div *ngIf="actionType === 'add'">
+                <div *ngIf="formType === 'category'" class="card shadow-sm p-4 mb-4">
+                    <h5 class="text-center mb-4">Add New Category</h5>
+                    <form (ngSubmit)="submitCategory()">
+                        <div class="mb-3">
+                            <label for="categoryName" class="form-label">Category Name</label>
+                            <input type="text" id="categoryName" [(ngModel)]="categoryName" name="categoryName"
+                                class="form-control" required />
+                        </div>
+                        <!-- <div class="mb-3">
+                            <label for="categoryImage" class="form-label">Category Image</label>
+                            <input type="text" id="categoryImage" [(ngModel)]="categoryImage" name="image"
+                                class="form-control" required />
+                        </div> -->
+                        <div class="mb-3 d-flex align-items-center">
+                            <label for="categoryImage" class="form-label me-2">Image</label>
+                            <input type="file" id="categoryImage" (change)="onImageChange($event)"
+                                class="form-control me-2" required />
+                            <button type="button" class="btn btn-primary" (click)="uploadImage()">Upload</button>
+                        </div>
+
+                        <div *ngIf="image">
+                            <h5>Uploaded Image:</h5>
+                            <img [src]="'http://localhost:5210/uploads/' + image" alt="Uploaded Image" class="img-fluid mb-3" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="brandSelect" class="form-label">Select Brands</label>
+                            <select id="brandSelect" [(ngModel)]="selectedBrandIds" name="brands" class="form-control"
+                                multiple required>
+                                <option *ngFor="let brand of brands" [value]="brand.brandID">
+                                    {{ brand.brandName }}
+                                </option>
+                            </select>
+                        </div>
+                        <!-- <div class="mb-3">
+                  <label for="categoryImage" class="form-label">Category Image</label>
+                  <input type="file" id="categoryImage" (change)="onImageChange($event, 'category')" class="form-control" required />
+                </div> -->
+                        <button type="submit" class="btn btn-primary w-100">Submit</button>
+                    </form>
+                </div>
+
+                <div *ngIf="formType === 'brand'" class="card shadow-sm p-4 mb-4">
+                    <h5 class="text-center mb-4">Add New Brand</h5>
+                    <form (ngSubmit)="submitBrand()">
+                        <div class="mb-3">
+                            <label for="brandName" class="form-label">Brand Name</label>
+                            <input type="text" id="brandName" [(ngModel)]="brandName" name="brandName"
+                                class="form-control" required />
+                        </div>
+                        <!-- <div class="mb-3">
+                            <label for="brandImage" class="form-label">Brand Image</label>
+                            <input type="text" id="brandImage" [(ngModel)]="brandImage" name="image"
+                                class="form-control" required />
+                        </div> -->
+
+                        <div class="mb-3 d-flex align-items-center">
+                            <label for="categoryImage" class="form-label me-2">Image</label>
+                            <input type="file" id="brandImage" (change)="onImageChange($event)"
+                                class="form-control me-2" required />
+                            <button type="button" class="btn btn-primary" (click)="uploadImage()">Upload</button>
+                        </div>
+
+                        <div *ngIf="image">
+                            <h5>Uploaded Image:</h5>
+                            <img [src]="'http://localhost:5210/uploads/' + image" alt="Uploaded Image" class="img-fluid mb-3" />
+                        </div>
+                        <!-- <div class="mb-3">
+                  <label for="brandImage" class="form-label">Brand Image</label>
+                  <input type="file" id="brandImage" (change)="onImageChange($event, 'brand')" class="form-control" required />
+                </div> -->
+                        <button type="submit" class="btn btn-primary w-100">Submit</button>
+                    </form>
+                </div>
+
+                <div *ngIf="formType === 'product'" class="card shadow-sm p-4 mb-4">
+                    <h5 class="text-center mb-4">Add New Product</h5>
+                    <form (ngSubmit)="submitProduct()">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Product Name</label>
+                            <input type="text" id="name" [(ngModel)]="name" name="name" class="form-control" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Product Code</label>
+                            <input type="text" id="productCode" [(ngModel)]="productCode" name="productCode"
+                                class="form-control" required />
+                        </div>
+
+                        <!-- <div class="mb-3">
+                            <label for="image" class="form-label">Product Image</label>
+                            <input type="text" id="imagee" [(ngModel)]="image" name="image" class="form-control"
+                                required />
+                        </div> -->
+
+                        <div class="mb-3 d-flex align-items-center">
+                            <label for="categoryImage" class="form-label me-2">Image</label>
+                            <input type="file" id="brandImage" (change)="onImageChange($event)"
+                                class="form-control me-2" required />
+                            <button type="button" class="btn btn-primary" (click)="uploadImage()">Upload</button>
+                        </div>
+
+                        <div *ngIf="image">
+                            <h5>Uploaded Image:</h5>
+                            <img [src]="'http://localhost:5210/uploads/' + image" alt="Uploaded Image" class="img-fluid mb-3" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="pdfLink" class="form-label">Catalouge Link</label>
+                            <input type="text" id="pdfLink" [(ngModel)]="pdfLink" name="pdfLink" class="form-control" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="brandSelect" class="form-label">Select Brands</label>
+                            <select id="brandSelect" [(ngModel)]="brandId" name="brands" class="form-control" required>
+                                <option *ngFor="let brand of brands" [value]="brand.brandID">
+                                    {{ brand.brandName }}
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="categorySelect" class="form-label">Select Categories</label>
+                            <select id="categorySelect" [(ngModel)]="categoryId" name="categories" class="form-control"
+                                required>
+                                <option *ngFor="let category of categories" [value]="category.categoryID">
+                                    {{ category.categoryName }}
+                                </option>
+                            </select>
+                        </div>
+                        <!-- <div class="mb-3">
+                    <label for="categoryImage" class="form-label">Category Image</label>
+                    <input type="file" id="categoryImage" (change)="onImageChange($event, 'category')" class="form-control" required />
+                  </div> -->
+                        <button type="submit" class="btn btn-primary w-100">Submit</button>
+                    </form>
+                </div>
+
+            </div>
+
+            <div *ngIf="actionType === 'delete'">
+                <div *ngIf="formType === 'brand'" class="card shadow-sm p-4 mb-4">
+                    <h5 class="text-center mb-4">Delete Brand</h5>
+                    <div class="mb-3">
+                        <ul class="list-group">
+                            <li *ngFor="let brand of brands"
+                                class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>{{ brand.brandName }}</span>
+                                <button (click)="deleteBrand(brand.brandID)"
+                                    class="btn btn-danger btn-sm">Delete</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div *ngIf="formType === 'category'" class="card shadow-sm p-4 mb-4">
+                    <h5 class="text-center mb-4">Delete Category</h5>
+                    <div class="mb-3">
+                        <ul class="list-group">
+                            <li *ngFor="let category of categories"
+                                class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>{{ category.categoryName }}</span>
+                                <button (click)="deleteCategory(category.categoryID)"
+                                    class="btn btn-danger btn-sm">Delete</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div *ngIf="formType === 'product'" class="card shadow-sm p-4 mb-4">
+                    <h5 class="text-center mb-4">Delete Product</h5>
+                    <div class="mb-3">
+                        <ul class="list-group">
+                            <li *ngFor="let product of products"
+                                class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>{{ product.name }}</span>
+                                <button (click)="deleteProduct(product.productId)"
+                                    class="btn btn-danger btn-sm">Delete</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Edit Form Section -->
+            <div *ngIf="actionType === 'edit' && editMode">
+                <!-- Edit Category -->
+                <div *ngIf="formType === 'category'" class="card shadow-sm p-4 mb-4">
+                    <h5 class="text-center mb-4">Edit Category</h5>
+                    <form (ngSubmit)="submitCategoryEdit()">
+                        <div class="mb-3">
+                            <label for="categoryName" class="form-label">Category Name</label>
+                            <input type="text" id="categoryName" [(ngModel)]="categoryName" name="categoryName"
+                                class="form-control" required />
+                        </div>
+                        <!-- <div class="mb-3">
+                            <label for="categoryImage" class="form-label">Category Image</label>
+                            <input type="text" id="image" [(ngModel)]="image" name="image" class="form-control"
+                                required />
+                        </div> -->
+
+                        <div class="mb-3 d-flex align-items-center">
+                            <label for="categoryImage" class="form-label me-2">Image</label>
+                            <input type="file" id="categoryImage" (change)="onImageChange($event)"
+                                class="form-control me-2" required  />
+                            <button type="button" class="btn btn-primary" (click)="uploadImage()">Upload</button>
+                        </div>
+
+                        <div *ngIf="image">
+                            <h5>Existing Image:</h5>
+                            <img [src]="'http://localhost:5210/uploads/' + image" alt="Uploaded Image" class="img-fluid mb-3" />
+                        </div>
+
+                        
+
+                        <div class="mb-3">
+                            <label for="brandSelect" class="form-label">Select Brands</label>
+                            <select id="brandSelect" [(ngModel)]="selectedBrandIds" name="brands" class="form-control"
+                                multiple required>
+                                <option *ngFor="let brand of brands" [value]="brand.brandID">
+                                    {{ brand.brandName }}
+                                </option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Update</button>
+                    </form>
+                </div>
+
+                <!-- Edit Brand -->
+                <div *ngIf="formType === 'brand'" class="card shadow-sm p-4 mb-4">
+                    <h5 class="text-center mb-4">Edit Brand</h5>
+                    <form (ngSubmit)="submitBrandEdit()">
+                        <div class="mb-3">
+                            <label for="brandName" class="form-label">Brand Name</label>
+                            <input type="text" id="brandName" [(ngModel)]="brandName" name="brandName"
+                                class="form-control" required />
+                        </div>
+                        
+
+                        <div class="mb-3 d-flex align-items-center">
+                            <label for="brandImage" class="form-label me-2">Image</label>
+                            <input type="file" id="image" (change)="onImageChange($event)"
+                                class="form-control me-2" required  />
+                            <button type="button" class="btn btn-primary" (click)="uploadImage()">Upload</button>
+                        </div>
+
+                        <div *ngIf="image">
+                            <h5>Existing Image:</h5>
+                            <img [src]="'http://localhost:5210/uploads/' + image" alt="Uploaded Image" class="img-fluid mb-3" />
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">Update</button>
+                    </form>
+                </div>
+
+
+                <!-- Edit Product -->
+                <div *ngIf="formType === 'product'" class="card shadow-sm p-4 mb-4">
+                    <h5 class="text-center mb-4">Edit Product</h5>
+                    <form (ngSubmit)="submitProductEdit()">
+                        <div class="mb-3">
+                            <label for="productName" class="form-label">Product Name</label>
+                            <input type="text" id="productName" [(ngModel)]="name" name="name" class="form-control"
+                                required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="productCode" class="form-label">Product Code</label>
+                            <input type="text" id="productCode" [(ngModel)]="productCode" name="productCode"
+                                class="form-control" required />
+                        </div>
+                        <!-- <div class="mb-3">
+                            <label for="productImage" class="form-label">Product Image</label>
+                            <input type="text" id="productImage" [(ngModel)]="image" name="image" class="form-control"
+                                required />
+                        </div> -->
+
+                        <div class="mb-3 d-flex align-items-center">
+                            <label for="productImage" class="form-label me-2">Image</label>
+                            <input type="file" id="productImage" (change)="onImageChange($event)"
+                                class="form-control me-2" required  />
+                            <button type="button" class="btn btn-primary" (click)="uploadImage()">Upload</button>
+                        </div>
+
+                        <div *ngIf="image">
+                            <h5>Existing Image:</h5>
+                            <img [src]="'http://localhost:5210/uploads/' + image" alt="Uploaded Image" class="img-fluid mb-3" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="pdfLink" class="form-label">Catalouge Link</label>
+                            <input type="text" id="pdfLink" [(ngModel)]="pdfLink" name="pdfLink" class="form-control" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="brandSelect" class="form-label">Select Brands</label>
+                            <select id="brandSelect" [(ngModel)]="brandId" name="brands" class="form-control" required>
+                                <option *ngFor="let brand of brands" [value]="brand.brandID">
+                                    {{ brand.brandName }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="categorySelect" class="form-label">Select Categories</label>
+                            <select id="categorySelect" [(ngModel)]="categoryId" name="categories" class="form-control"
+                                required>
+                                <option *ngFor="let category of categories" [value]="category.categoryID">
+                                    {{ category.categoryName }}
+                                </option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Update</button>
+                    </form>
+                </div>
+            </div>
+
+
+            <div *ngIf="actionType === 'edit' && displayEdit">
+                <div *ngIf="formType === 'brand'" class="card shadow-sm p-4 mb-4">
+                    <h5 class="text-center mb-4">Edit Brand</h5>
+                    <div class="mb-3">
+                        <ul class="list-group">
+                            <li *ngFor="let brand of brands"
+                                class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>{{ brand.brandName }}</span>
+                                <button (click)="editBrand(brand.brandID)" class="btn btn-success btn-sm">Edit</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div *ngIf="formType === 'category'" class="card shadow-sm p-4 mb-4">
+                    <h5 class="text-center mb-4">Edit Category</h5>
+                    <div class="mb-3">
+                        <ul class="list-group">
+                            <li *ngFor="let category of categories"
+                                class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>{{ category.categoryName }}</span>
+                                <button (click)="editCategory(category.categoryID)"
+                                    class="btn btn-success btn-sm">Edit</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div *ngIf="formType === 'product'" class="card shadow-sm p-4 mb-4">
+                    <h5 class="text-center mb-4">Edit Product</h5>
+                    <div class="mb-3">
+                        <ul class="list-group">
+                            <li *ngFor="let product of products"
+                                class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>{{ product.name }}</span>
+                                <button (click)="editProduct(product.productId)"
+                                    class="btn btn-success btn-sm">Edit</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+        </div>
+    </div>
+</div>

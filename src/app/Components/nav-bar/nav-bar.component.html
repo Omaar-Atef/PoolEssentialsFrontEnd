@@ -1,0 +1,102 @@
+<header id="header" class="site-header header-scrolled position-fixed text-black bg-light">
+  <nav id="header-nav" class="navbar navbar-expand-lg px-3 mb-3">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">
+        <img src="/main-logo.png" class="logo">
+      </a>
+      <button class="navbar-toggler d-flex d-lg-none order-3 p-2" type="button" data-bs-toggle="offcanvas"
+        data-bs-target="#bdNavbar" aria-controls="bdNavbar" aria-expanded="false" aria-label="Toggle navigation">
+        <svg class="navbar-icon">
+          <use xlink:href="#navbar-icon"></use>
+        </svg>
+      </button>
+
+
+
+      <div class="offcanvas offcanvas-end" tabindex="-1" id="bdNavbar" aria-labelledby="bdNavbarOffcanvasLabel">
+        <div class="offcanvas-header px-4 pb-0">
+          <a class="navbar-brand" href="index.html">
+            <img src="/main-logo.png" class="logo">
+          </a>
+          <button type="button" class="btn-close btn-close-black" data-bs-dismiss="offcanvas" aria-label="Close"
+            data-bs-target="#bdNavbar"></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul id="navbar" class="navbar-nav text-uppercase justify-content-end align-items-center flex-grow-1 pe-3">
+            <li class="nav-item">
+              <a class="nav-link me-4 " routerLink="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link me-4 " routerLink="/categories">Categories</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link me-4 " routerLink="/brands">brands</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link me-4 " routerLink="/products">products</a>
+            </li>
+            <li class="nav-item">
+              <a *ngIf="isHome()" class="nav-link me-4" routerLink="/" [fragment]="'About'">About</a>
+              <a *ngIf="!isHome()" class="nav-link me-4" routerLink="/about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link me-4" href="#" data-bs-toggle="offcanvas" data-bs-target="#searchModal"
+                aria-controls="searchModal">
+                <i class="bi bi-search" style="opacity: 0.7;"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+
+
+<!-- Offcanvas Modal for Search -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="searchModal" aria-labelledby="searchModalLabel">
+  <div class="offcanvas-header">
+    <h5 id="searchModalLabel">Search</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <!-- Search Options -->
+    <form id="searchForm" (ngSubmit)="onSearchSubmit()">
+      
+      <!-- Radio Buttons for Search Type -->
+      <div class="mb-3">
+        <label class="form-label">Search By:</label>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="searchType" id="searchCategory" value="category" [(ngModel)]="selectedSearchType" checked>
+          <label class="form-check-label" for="searchCategory">Category Name</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="searchType" id="searchBrand" value="brand" [(ngModel)]="selectedSearchType">
+          <label class="form-check-label" for="searchBrand">Brand Name</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="searchType" id="searchProduct" value="product" [(ngModel)]="selectedSearchType">
+          <label class="form-check-label" for="searchProduct">Product Name</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="searchType" id="searchProductCode" value="productCode" [(ngModel)]="selectedSearchType">
+          <label class="form-check-label" for="searchProductCode">Product Code</label>
+        </div>
+      </div>
+
+      <!-- Search Text Input -->
+      <div class="mb-3">
+        <label for="searchText" class="form-label">Search Text:</label>
+        <input type="text" id="searchText" class="form-control" [(ngModel)]="searchText" name="searchText" required>
+      </div>
+
+      <!-- Search Button -->
+      <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+  </div>
+</div>
+
+
+
+
+</header>

@@ -1,0 +1,108 @@
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+<!-- <section id="BrandCategoriesProductList" class="brands-list">
+
+  <div class="container">
+    <h2 class="display-7 text-dark text-uppercase">Products</h2>
+
+    <div class="row">
+      <div *ngFor="let product of Products()" class="col-lg-4 col-md-6 col-12 mb-4">
+        <div class="product-card position-relative">
+          <div class="image-holder">
+            <img [src]="'http://localhost:5210/uploads/' + product.image" [alt]="product.name" class="img-fluid">
+          </div>
+          <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
+            <h3 class="card-title text-uppercase">
+              {{product.name }}
+            </h3>
+          </div>
+          <div>
+            <p class="m-0">
+              <span class="text-black fw-bold">Category:</span> {{product.categoryName }}
+            </p>
+            <p class="m-0">
+              <span class="text-black fw-bold">Brand:</span> {{product.brandName }}
+            </p>
+            <p>
+              <span class="text-black fw-bold">Code:</span> {{product.productCode }}
+            </p>
+          </div>
+
+          <div class="container mt-5">
+            <button class="btn btn-primary btn-lg">View Specs</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pagination w-25 text-center mx-auto  mb-5">
+      <button (click)="prevPage()" [disabled]="currentPage === 1" class="btn btn-primary rounded-pill">Previous</button>
+      <span class="my-1 mx-3">Page {{ currentPage }} of {{ totalPages }}</span>
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages"
+        class="btn btn-primary rounded-pill">Next</button>
+    </div>
+  </div>
+</section> -->
+
+
+<section id="BrandCategoriesProductList" class="brands-list py-5">
+  <div class="container">
+    <h2 class="display-4 text-center text-dark text-uppercase mb-5">Products</h2>
+
+    <div class="row">
+      <div *ngFor="let product of Products()" class="col-lg-4 col-md-4 col-12 mb-4">
+        <div class="card shadow-lg border-0 rounded-3 overflow-hidden">
+          <!-- Product Image -->
+          <div class="image-holder">
+            <img [src]="'http://localhost:5210/uploads/' + product.image" [alt]="product.name" class="card-img-top">
+          </div>
+
+          <!-- Card Body with Text and Button (30% height) -->
+          <div class="card-body d-flex my-3">
+            <!-- Left Half for Text -->
+            <div class="left-half">
+              <h3 class="card-title text-uppercas my-3 fs-5">{{product.name}}</h3>
+              <p><span class="fw-bold text-dark">Category:</span> {{product.categoryName}}</p>
+              <p><span class="fw-bold text-dark">Brand:</span> {{product.brandName}}</p>
+              <p><span class="fw-bold text-dark">Code:</span> {{product.productCode}}</p>
+            </div>
+
+            <!-- Right Half for Button -->
+            <div class="right-half d-flex justify-content-center align-items-end">
+              <!-- Conditionally render the link or the disabled button -->
+              <a *ngIf="product.pdfLink && product.pdfLink.trim() !== ''" 
+                 [href]="product.pdfLink" 
+                 target="_blank" 
+                 class="btn btn-primary px-2 py-2 rounded-pill shadow-sm">
+                 View Specs
+              </a>
+              <button *ngIf="!product.pdfLink || product.pdfLink.trim() === ''" class="btn btn-primary px-2 py-2 rounded-pill shadow-sm" disabled>
+                 View Specs
+              </button>
+            </div>
+            
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination  text-center mx-auto mb-5">
+      <button (click)="prevPage()" [disabled]="currentPage === 1" class="btn btn-primary rounded-pill">Previous</button>
+      <span class="my-1 mx-3">Page {{ currentPage }} of {{ totalPages }}</span>
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="btn btn-primary rounded-pill">Next</button>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
