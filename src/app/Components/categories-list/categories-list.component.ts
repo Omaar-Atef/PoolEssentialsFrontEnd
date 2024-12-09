@@ -24,9 +24,11 @@ export class CategoriesListComponent {
   pageSize = 9;
   totalCategories = 0;
   totalPages = 0;
+  searchQuery: string = '';
 
   httpClient = inject(HttpClient);
   router = inject(Router);
+  activatedRoute = inject(ActivatedRoute);
 
   public Categories = signal<Category[]>([]);
 
@@ -49,10 +51,19 @@ export class CategoriesListComponent {
       });
   }
 
-  
   ngOnInit() {
-    this.getAllCategories();
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.searchQuery = params['search'] || '';
+      if (this.searchQuery) {
+        this.searchCategories(this.searchQuery)
+      }
+      else {
+        this.getAllCategories();
+      }
+    })
   }
+
+ 
 
   nextPage(): void {
     if (this.currentPage < this.totalPages) {
@@ -71,6 +82,32 @@ export class CategoriesListComponent {
   goToProducts(categoryID: number,categoryName:string): void {
     this.router.navigate(['/categories/PrdInCat',categoryID,categoryName]);
   }
+
+
+  searchCategories(query: string): void {
+    const apiUrl = `http://localhost:5210/api/Category/${query}`;
+    this.httpClient.get<Category[]>(apiUrl)
+      .subscribe({
+        next: (data) => {
+          if (data.length === 0) {
+            this.Categories.set([]);
+            this.totalCategories = 0;
+            this.totalPages = 0;
+          } else {
+            this.Categories.set(data);
+            this.totalCategories = data.length;
+            this.totalPages = Math.ceil(this.totalCategories / this.pageSize);
+          }
+        },
+        error: (err) => {
+          console.error('Error fetching Category:', err);
+          this.Categories.set([]);
+          this.totalCategories = 0;
+          this.totalPages = 0;
+        }
+      });
+  }
+  
 
   
 }

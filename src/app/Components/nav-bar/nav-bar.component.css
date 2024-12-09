@@ -1,0 +1,46 @@
+.btn-toggle {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .toggle-circle {
+    width: 40px;
+    height: 20px;
+    border-radius: 50px;
+    background-color: gray; /* Default color when disabled */
+    position: relative;
+    transition: all 0.3s ease;
+  }
+  
+  .toggle-circle.enabled {
+    background-color: blue; /* Blue color when enabled */
+  }
+  
+  .toggle-circle::after {
+    content: '';
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: white;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: all 0.3s ease;
+  }
+  
+  .toggle-circle.enabled::after {
+    left: 22px; /* Move the circle to the right when enabled */
+  }
+  
+  .toggle-circle.disabled::after {
+    left: 2px; /* Keep the circle on the left when disabled */
+  }
+  
+  span {
+    font-size: 16px;
+  }
+  
